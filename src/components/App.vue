@@ -1,24 +1,12 @@
 <template>
-  <md-app
-      v-cloak
-      md-waterfall
-      md-mode="fixed"
-  >
-
-    <md-app-content>
-      <login button-text="Send it" email-placeholder="email" password-placeholder="password" title="Gamer login"></login>
-      <login button-text="Send it" email-placeholder="email" password-placeholder="password" title="Gamer login"></login>
-      <login button-text="Send it" email-placeholder="email" password-placeholder="password" title="Gamer login"></login>
-    </md-app-content>
-
-  </md-app>
+ <ue05></ue05>
 </template>
 
 <script>
-import Login from "@/components/login";
+import Ue05 from "@/components/ue05/ue05";
 export default {
   name: 'App',
-  components: {Login},
+  components: {Ue05},
 }
 </script>
 

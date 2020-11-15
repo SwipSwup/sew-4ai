@@ -1,42 +1,87 @@
 <template>
   <div class="container">
-    <div>
-      {{ name }}
+    <div class="info">
+      <div>{{ name }}</div>
+      <div>{{ platz }}</div>
     </div>
     <div>
-      <md-radio v-model="radio" v-on:click="disableButton0 = true" value="1" :disabled="disableButton0">String</md-radio>
-      <md-radio v-model="radio" value="2" :disabled="disableButton1">String</md-radio>
-      <md-radio v-model="radio" value="3" :disabled="disableButton2">String</md-radio>
-      <md-radio v-model="radio" value="4" :disabled="disableButton3">String</md-radio>
-      <md-radio v-model="radio" value="5" :disabled="disableButton4">String</md-radio>
+      <md-radio
+        v-model="radio"
+        value="1"
+        :disabled="disabledButtons[0]"
+        @change="updateButtonStatus(0)"
+      >
+        1
+      </md-radio>
+      <md-radio
+        v-model="radio"
+        value="2"
+        :disabled="disabledButtons[1]"
+        @change="updateButtonStatus(1)"
+      >
+        2
+      </md-radio>
+      <md-radio
+        v-model="radio"
+        value="3"
+        :disabled="disabledButtons[2]"
+        @change="updateButtonStatus(2)"
+      >
+        3
+      </md-radio>
+      <md-radio
+        v-model="radio"
+        value="4"
+        :disabled="disabledButtons[3]"
+        @change="updateButtonStatus(3)"
+      >
+        4
+      </md-radio>
+      <md-radio
+        v-model="radio"
+        value="5"
+        :disabled="disabledButtons[4]"
+        @change="updateButtonStatus(4)"
+      >
+        5
+      </md-radio>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "entry",
-  props: {name: String},
+  name: "Entry",
+  props: {
+    name: String,
+    disabledButtons: Array
+  },
   data: () => ({
     radio: true,
-    disableButton0: false,
-    disableButton1: false,
-    disableButton2: false,
-    disableButton3: false,
-    disableButton4: false
+    platz: "",
+    oldButtonState: undefined
   }),
   methods: {
-    disableButton: (index) => {
-
+    updateButtonStatus(index) {
+      this.platz = index + 1 + ". Platz"
+      this.$emit('on-button-update', [index, this.oldButtonState]);
+      this.oldButtonState = index
     }
   }
 }
 </script>
 
 <style scoped>
-  .container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.info {
+  margin-top: 15px;
+  width: 40%;
+  display: flex;
+  justify-content: space-between;
+}
 </style>

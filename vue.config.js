@@ -88,4 +88,16 @@ function devtoolModuleFilenameTemplate(info) {
 }
 
 
-module.exports = configs[process.env.NODE_ENV] || configs.production
+//module.exports = configs[process.env.NODE_ENV] || configs.production
+
+module.exports = {
+    //...
+    chainWebpack: config => {
+        config.module
+            .rule('raw')
+            .test(/\.txt$/)
+            .use('raw-loader')
+            .loader('raw-loader')
+            .end()
+    },
+}

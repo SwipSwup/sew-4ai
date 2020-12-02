@@ -9,29 +9,9 @@
 
       <md-card-content>
         <entry
-          :disabled-buttons="disabledButtons"
-          name="Peggie Petra"
-          @on-button-update="updateButtons($event)"
-        />
-        <entry
-          :disabled-buttons="disabledButtons"
-          name="Leesa Stife"
-          @on-button-update="updateButtons($event)"
-        />
-        <entry
-          :disabled-buttons="disabledButtons"
-          name="Guido Paddington"
-          @on-button-update="updateButtons($event)"
-        />
-        <entry
-          :disabled-buttons="disabledButtons"
-          name="Salomo Hitzke"
-          @on-button-update="updateButtons($event)"
-        />
-        <entry
-          :disabled-buttons="disabledButtons"
-          name="Betta Nannizzi"
-          @on-button-update="updateButtons($event)"
+          v-for="name in names"
+          :teilnehmer-anz="entrySize"
+          :name="name"
         />
       </md-card-content>
     </md-card>
@@ -40,19 +20,32 @@
 
 <script>
 import Entry from "@/components/ue05/entry";
+import nameList from "./name_list.txt";
 
 export default {
   name: "Ue05",
   components: {Entry},
-  data: () => ({
-    disabledButtons: [false, false, false, false, false]
-  }),
+  data() {
+    return {
+      entrySize: 5,
+      disabledButtons: [],
+      names: []
+    }
+  },
+
+  created() {
+    this.entrySize = Math.floor(Math.random() * 11) + 5;
+    this.loadNameList();
+  },
 
   methods: {
-    updateButtons(input) {
-      if (input[1] !== undefined) 
-        this.$set(this.disabledButtons, input[1], false)
-      this.$set(this.disabledButtons, input[0], true)
+    loadNameList() {
+      const tmp = nameList.split("\n");
+      for (let i = 0; i < this.entrySize; i++) {
+        const newName = tmp[Math.floor(Math.random() * tmp.length - 1)];
+        if (!this.names.includes(newName))
+          this.names.push(newName);
+      }
     }
   }
 }
@@ -60,8 +53,9 @@ export default {
 
 <style scoped>
 .md-card {
-  width: 600px;
+  min-width: 600px;
 }
+
 .md-card-header {
   background: #448aff;
   color: #fff;

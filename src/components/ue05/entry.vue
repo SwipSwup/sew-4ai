@@ -6,66 +6,57 @@
     </div>
     <div>
       <md-radio
+        v-for="(value, index) in disabledButtons"
         v-model="radio"
-        value="1"
-        :disabled="disabledButtons[0]"
-        @change="updateButtonStatus(0)"
+        :value="index"
+        :disabled="value"
+        @change="handleClick(index)"
       >
-        1
-      </md-radio>
-      <md-radio
-        v-model="radio"
-        value="2"
-        :disabled="disabledButtons[1]"
-        @change="updateButtonStatus(1)"
-      >
-        2
-      </md-radio>
-      <md-radio
-        v-model="radio"
-        value="3"
-        :disabled="disabledButtons[2]"
-        @change="updateButtonStatus(2)"
-      >
-        3
-      </md-radio>
-      <md-radio
-        v-model="radio"
-        value="4"
-        :disabled="disabledButtons[3]"
-        @change="updateButtonStatus(3)"
-      >
-        4
-      </md-radio>
-      <md-radio
-        v-model="radio"
-        value="5"
-        :disabled="disabledButtons[4]"
-        @change="updateButtonStatus(4)"
-      >
-        5
+        {{ index + 1 }}
       </md-radio>
     </div>
   </div>
 </template>
 
 <script>
+import eventBus from '@/services/event-bus'
+
 export default {
   name: "Entry",
   props: {
     name: String,
-    disabledButtons: Array
+    teilnehmerAnz: Number
   },
-  data: () => ({
-    radio: true,
-    platz: "",
-    oldButtonState: undefined
-  }),
+
+  data() {
+    return {
+      radio: true,
+      platz: "",
+      disabledButtons: [],
+      oldButtonState: undefined
+    }
+  },
+
+  created() {
+    this.disabledButtons = new Array(this.teilnehmerAnz);
+    this.disabledButtons.fill(false);
+
+    eventBus.$on('on-button-update', (data) => {
+      this.updateButtons(data);
+    })
+  },
+
   methods: {
-    updateButtonStatus(index) {
-      this.platz = index + 1 + ". Platz"
-      this.$emit('on-button-update', [index, this.oldButtonState]);
-      this.oldButtonState = index
+    handleClick(index) {
+      this.platz = index + 1 + ". Platz";
+      eventBus.$emit('on-button-update', [index, this.oldButtonState]);
+      this.oldButtonState = index;
+    },
+
+    updateButtons(input) {
+      if (input[1] !== undefined)
+        eventBus.$set(this.disabledButtons, input[1], false);
+      eventBus.$set(this.disabledButtons, input[0], true);
     }
   }
 }

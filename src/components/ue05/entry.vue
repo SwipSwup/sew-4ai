@@ -6,11 +6,11 @@
     </div>
     <div>
       <md-radio
-        v-for="(value, index) in disabledButtons"
-        v-model="radio"
-        :value="index"
-        :disabled="value"
-        @change="handleClick(index)"
+          v-for="(value, index) in disabledButtons"
+          v-model="radio"
+          :value="index"
+          :disabled="value"
+          @change="handleClick(index)"
       >
         {{ index + 1 }}
       </md-radio>
@@ -32,8 +32,14 @@ export default {
     return {
       radio: true,
       platz: "",
-      disabledButtons: [],
+      // disabledButtons: [],
       oldButtonState: undefined
+    }
+  },
+
+  computed: {
+    disabledButtons() {
+      return this.$store.state.disabledButtons;
     }
   },
 

@@ -21,6 +21,7 @@
 <script>
 import Entry from "@/components/ue05/entry";
 import nameList from "./name_list.txt";
+import  Vuex from "vuex"
 
 export default {
   name: "Ue05",

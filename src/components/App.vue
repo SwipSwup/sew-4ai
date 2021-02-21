@@ -1,8 +1,8 @@
 <template>
   <md-app
-      v-cloak
-      md-waterfall
-      md-mode="fixed"
+    v-cloak
+    md-waterfall
+    md-mode="fixed"
   >
     <!--        <md-app-toolbar class="md-primary md-dense md-layout md-alignment-center-space-between">-->
     <!--            <router-link :to="{ name: 'liste' }">-->
